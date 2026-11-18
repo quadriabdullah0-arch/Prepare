@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>States of Matter & Particle Theory Quiz</title>
+  <!-- Load Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Load Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- Top Sticky Header (Visible during Quiz) -->
+  <header id="quiz-header" class="hidden sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <h1 class="text-sm sm:text-base font-bold text-slate-900 leading-tight">States of Matter & Particle Theory</h1>
+        <p id="header-student-info" class="text-xs text-slate-500 mt-0.5 truncate max-w-[200px] sm:max-w-xs"></p>
+      </div>
+
+      <div class="flex items-center gap-3 sm:gap-5">
+        <!-- Answered Progress Counter -->
+        <div class="bg-slate-100 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700">
+          Answered: <span id="answered-count" class="text-indigo-600 font-bold">0</span> / 10
+        </div>
+
+        <!-- Countdown Timer -->
+        <div id="timer-badge" class="flex items-center gap-1.5 bg-indigo-50 text-indigo-700 border border-indigo-200 px-3.5 py-1.5 rounded-xl font-mono text-sm sm:text-base font-bold transition-colors">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span id="timer-display">10:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thin Visual Progress Bar -->
+    <div class="w-full bg-slate-100 h-1.5">
+      <div id="progress-bar" class="bg-indigo-600 h-1.5 transition-all duration-300" style="width: 0%"></div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+    <!-- ========================================================= -->
+    <!-- SCREEN 1: REGISTRATION & INSTRUCTIONS                     -->
+    <!-- ========================================================= -->
+    <section id="start-screen" class="max-w-xl mx-auto">
+      <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+        <!-- Decorative Academic Banner -->
+        <div class="bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 px-6 sm:px-8 py-8 text-white">
+          <span class="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
+            Science Assessment
+          </span>
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">States of Matter & Particle Theory Quiz</h1>
+          <p class="text-indigo-100 text-sm sm:text-base mt-2">
+            Complete all 10 multiple-choice questions before time expires. Your script and score will be automatically submitted to your instructor.
+          </p>
+        </div>
+
+        <!-- Quiz Metadata Pills -->
+        <div class="grid grid-cols-3 divide-x divide-slate-100 border-b border-slate-100 bg-slate-50/70 text-center py-4">
+          <div>
+            <p class="text-xs font-medium text-slate-500 uppercase">Questions</p>
+            <p class="text-lg font-bold text-slate-900 mt-0.5">10 MCQs</p>
+          </div>
+          <div>
+            <p class="text-xs font-medium text-slate-500 uppercase">Time Limit</p>
+            <p class="text-lg font-bold text-indigo-600 mt-0.5">10 Mins</p>
+          </div>
+          <div>
+            <p class="text-xs font-medium text-slate-500 uppercase">Total Marks</p>
+            <p class="text-lg font-bold text-slate-900 mt-0.5">10 Points</p>
+          </div>
+        </div>
+
+        <!-- Student Registration Form -->
+        <form id="registration-form" class="p-6 sm:p-8 space-y-5" novalidate>
+          <!-- Inline Validation Error Box -->
+          <div id="reg-error" class="hidden bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-xl text-sm font-medium">
+            Please enter both your Full Name and Student ID / Class to start the quiz.
+          </div>
+
+          <div>
+            <label for="student-name" class="block text-sm font-semibold text-slate-700 mb-1.5">
+              Full Name <span class="text-rose-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="student-name"
+              required
+              placeholder="e.g., Amina Yusuf"
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+            />
+          </div>
+
+          <div>
+            <label for="student-id" class="block text-sm font-semibold text-slate-700 mb-1.5">
+              Student ID / Matric No. / Class <span class="text-rose-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="student-id"
+              required
+              placeholder="e.g., JSS2-014 or student@email.com"
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+            />
+          </div>
+
+          <div class="bg-amber-50 border border-amber-200/80 rounded-2xl p-4 text-xs sm:text-sm text-amber-800 space-y-1">
+            <p class="font-semibold flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Important Rules:
+            </p>
+            <ul class="list-disc list-inside space-y-0.5 text-amber-700 ml-1">
+              <li>Once started, the 10-minute timer cannot be paused.</li>
+              <li>The quiz automatically submits when the clock hits <strong>00:00</strong>.</li>
+            </ul>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3.5 px-6 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-base rounded-xl shadow-lg shadow-indigo-600/25 transition flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>Start 10-Minute Quiz</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SCREEN 2: ACTIVE QUIZ QUESTIONS                           -->
+    <!-- ========================================================= -->
+    <section id="quiz-screen" class="hidden space-y-6">
+      <div id="questions-container" class="space-y-6">
+        <!-- Questions are dynamically injected here -->
+      </div>
+
+      <!-- Bottom Submit Area -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-center sm:text-left">
+          <p class="font-bold text-slate-900">Ready to submit your answers?</p>
+          <p id="unanswered-warning" class="text-sm text-slate-500 mt-0.5">
+            Make sure you have reviewed all 10 questions.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          id="submit-quiz-btn"
+          class="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Submit Quiz Now</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SCREEN 3: RESULTS & AUTOMATED EMAIL SUBMISSION STATUS     -->
+    <!-- ========================================================= -->
+    <section id="result-screen" class="hidden space-y-6">
+      <!-- Email Delivery Status Banner -->
+      <div id="email-status-banner" class="rounded-2xl p-4 sm:p-5 border bg-blue-50 border-blue-200 text-blue-900 flex items-start sm:items-center gap-3.5 shadow-sm">
+        <div id="email-status-icon" class="shrink-0 mt-0.5 sm:mt-0">
+          <!-- Spinner -->
+          <svg class="w-6 h-6 animate-spin text-blue-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+        </div>
+        <div class="flex-grow">
+          <h3 id="email-status-title" class="font-bold text-sm sm:text-base">Sending score & script to instructor...</h3>
+          <p id="email-status-desc" class="text-xs sm:text-sm opacity-90 mt-0.5">
+            Transmitting your full exam script to <span class="font-semibold">quadriabdullah0@gmail.com</span>. Please wait a moment.
+          </p>
+        </div>
+      </div>
+
+      <!-- Score Summary Card -->
+      <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-6 sm:px-8 py-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div class="text-center sm:text-left">
+            <span id="submission-reason-badge" class="inline-block bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+              Submitted Successfully
+            </span>
+            <h2 id="res-student-name" class="text-2xl sm:text-3xl font-extrabold">Student Name</h2>
+            <p id="res-student-meta" class="text-slate-300 text-sm mt-1">ID: --- • Time Taken: ---</p>
+          </div>
+
+          <!-- Score Circle Badge -->
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl px-7 py-5 text-center shrink-0">
+            <p class="text-xs uppercase tracking-wider text-indigo-200 font-semibold">Final Score</p>
+            <p class="text-4xl sm:text-5xl font-extrabold text-white mt-1">
+              <span id="res-score">0</span><span class="text-xl text-indigo-300 font-semibold">/10</span>
+            </p>
+            <p id="res-percentage" class="text-sm font-bold text-emerald-400 mt-1">0%</p>
+          </div>
+        </div>
+
+        <!-- Backup Action Bar (Copy Script / Direct Mail Client) -->
+        <div class="px-6 sm:px-8 py-4 bg-slate-50 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <p class="text-xs text-slate-500">
+            Need a backup copy or sending offline? Use the options on the right.
+          </p>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button
+              type="button"
+              id="copy-script-btn"
+              class="px-3.5 py-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+              </svg>
+              <span id="copy-btn-text">Copy Script</span>
+            </button>
+
+            <a
+              id="mailto-backup-btn"
+              href="mailto:quadriabdullah0@gmail.com"
+              class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span>Send via Email App</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Detailed Script Review -->
+        <div class="p-6 sm:p-8">
+          <h3 class="text-lg font-bold text-slate-900 mb-4">Marked Script Breakdown</h3>
+          <div id="script-review-container" class="space-y-4">
+            <!-- Marked questions injected here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Custom Confirmation Modal (Replaces window.confirm) -->
+  <div id="confirm-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center gap-3 text-amber-600">
+        <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900">Unanswered Questions</h3>
+      </div>
+      <p id="confirm-modal-text" class="text-sm text-slate-600">
+        You still have unanswered questions. Are you sure you want to submit your quiz now?
+      </p>
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button
+          type="button"
+          id="modal-cancel-btn"
+          class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-50 cursor-pointer"
+        >
+          Keep Answering
+        </button>
+        <button
+          type="button"
+          id="modal-confirm-btn"
+          class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm cursor-pointer"
+        >
+          Yes, Submit Quiz
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-xl shadow-lg">
+    Copied to clipboard!
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. QUIZ DATA & ANSWER KEY (States of Matter & Particle Theory)
+    // =========================================================================
+    const INSTRUCTOR_EMAIL = "quadriabdullah0@gmail.com";
+    const TOTAL_TIME_SECONDS = 10 * 60; // 10 minutes (600 seconds)
+
+    const QUIZ_QUESTIONS = [
+      {
+        number: 1,
+        question: "What is matter?",
+        options: {
+          A: "Anything that produces light.",
+          B: "Anything that has mass and takes up space.",
+          C: "Anything that makes a sound.",
+          D: "Anything that is alive."
+        },
+        answer: "B"
+      },
+      {
+        number: 2,
+        question: "Which of these is an example of a solid?",
+        options: {
+          A: "Milk",
+          B: "Oxygen",
+          C: "Ice",
+          D: "Air"
+        },
+        answer: "C"
+      },
+      {
+        number: 3,
+        question: "Which state of matter has a fixed shape and a fixed volume?",
+        options: {
+          A: "Liquid",
+          B: "Gas",
+          C: "Solid",
+          D: "Water vapour"
+        },
+        answer: "C"
+      },
+      {
+        number: 4,
+        question: "What happens to a liquid when it is poured into a different container?",
+        options: {
+          A: "Its shape changes.",
+          B: "It becomes a solid.",
+          C: "Its volume disappears.",
+          D: "It becomes a gas."
+        },
+        answer: "A"
+      },
+      {
+        number: 5,
+        question: "Which of these is a gas?",
+        options: {
+          A: "Wood",
+          B: "Water",
+          C: "Oxygen",
+          D: "Stone"
+        },
+        answer: "C"
+      },
+      {
+        number: 6,
+        question: "Which statement about gases is correct?",
+        options: {
+          A: "They have a fixed shape.",
+          B: "They have a fixed volume.",
+          C: "They cannot move.",
+          D: "They spread out to fill their container."
+        },
+        answer: "D"
+      },
+      {
+        number: 7,
+        question: "What are the tiny building blocks that make up matter called?",
+        options: {
+          A: "Cells",
+          B: "Particles",
+          C: "Muscles",
+          D: "Organs"
+        },
+        answer: "B"
+      },
+      {
+        number: 8,
+        question: "How are particles arranged in a solid?",
+        options: {
+          A: "Very far apart.",
+          B: "Close together in a regular pattern.",
+          C: "Close together but always moving around each other.",
+          D: "They do not exist."
+        },
+        answer: "B"
+      },
+      {
+        number: 9,
+        question: "How do particles move in a liquid?",
+        options: {
+          A: "They cannot move at all.",
+          B: "They move around each other.",
+          C: "They disappear.",
+          D: "They remain in one fixed position."
+        },
+        answer: "B"
+      },
+      {
+        number: 10,
+        question: "Which state of matter has particles that move quickly in all directions?",
+        options: {
+          A: "Solid",
+          B: "Liquid",
+          C: "Gas",
+          D: "Ice"
+        },
+        answer: "C"
+      }
+    ];
+
+    // =========================================================================
+    // 2. APPLICATION STATE
+    // =========================================================================
+    let studentName = "";
+    let studentId = "";
+    let userAnswers = {}; // e.g., { 1: 'B', 2: 'C' }
+    let remainingSeconds = TOTAL_TIME_SECONDS;
+    let timerInterval = null;
+    let quizSubmitted = false;
+    let generatedPlainTextReport = "";
+
+    // =========================================================================
+    // 3. DOM REFERENCES
+    // =========================================================================
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const quizHeader = document.getElementById("quiz-header");
+
+    const regForm = document.getElementById("registration-form");
+    const regError = document.getElementById("reg-error");
+    const nameInput = document.getElementById("student-name");
+    const idInput = document.getElementById("student-id");
+
+    const headerStudentInfo = document.getElementById("header-student-info");
+    const answeredCountEl = document.getElementById("answered-count");
+    const progressBarEl = document.getElementById("progress-bar");
+    const timerBadgeEl = document.getElementById("timer-badge");
+    const timerDisplayEl = document.getElementById("timer-display");
+    const questionsContainer = document.getElementById("questions-container");
+    const unansweredWarning = document.getElementById("unanswered-warning");
+
+    const submitQuizBtn = document.getElementById("submit-quiz-btn");
+    const confirmModal = document.getElementById("confirm-modal");
+    const confirmModalText = document.getElementById("confirm-modal-text");
+    const modalCancelBtn = document.getElementById("modal-cancel-btn");
+    const modalConfirmBtn = document.getElementById("modal-confirm-btn");
+
+    // =========================================================================
+    // 4. REGISTRATION & QUIZ INITIALIZATION
+    // =========================================================================
+    regForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nameVal = nameInput.value.trim();
+      const idVal = idInput.value.trim();
+
+      if (!nameVal || !idVal) {
+        regError.classList.remove("hidden");
+        return;
+      }
+
+      regError.classList.add("hidden");
+      studentName = nameVal;
+      studentId = idVal;
+
+      startQuiz();
+    });
+
+    function startQuiz() {
+      // Update header student info
+      headerStudentInfo.textContent = `${studentName} (${studentId})`;
+
+      // Render all 10 questions
+      renderQuestions();
+
+      // Switch screens
+      startScreen.classList.add("hidden");
+      quizHeader.classList.remove("hidden");
+      quizScreen.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Start 10-minute countdown timer
+      startTimer();
+    }
+
+    function renderQuestions() {
+      questionsContainer.innerHTML = "";
+
+      QUIZ_QUESTIONS.forEach((q) => {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-7 shadow-xs transition hover:border-slate-300";
+
+        let optionsHtml = "";
+        for (const [letter, text] of Object.entries(q.options)) {
+          const inputId = `q${q.number}_opt_${letter}`;
+          optionsHtml += `
+            <label for="${inputId}" class="option-label group flex items-center gap-3.5 p-3.5 sm:p-4 rounded-xl border border-slate-200 cursor-pointer hover:bg-indigo-50/50 hover:border-indigo-300 transition select-none" data-q="${q.number}" data-opt="${letter}">
+              <input
+                type="radio"
+                id="${inputId}"
+                name="question_${q.number}"
+                value="${letter}"
+                class="sr-only"
+              />
+              <span class="option-badge w-8 h-8 rounded-lg bg-slate-100 text-slate-700 font-bold text-sm flex items-center justify-center shrink-0 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition">
+                ${letter}
+              </span>
+              <span class="text-sm sm:text-base text-slate-700 font-medium leading-snug">
+                ${text}
+              </span>
+            </label>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-start gap-3.5 mb-4">
+            <span class="w-8 h-8 rounded-xl bg-indigo-600 text-white font-bold text-sm flex items-center justify-center shrink-0 mt-0.5">
+              ${q.number}
+            </span>
+            <h2 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+              ${q.question}
+            </h2>
+          </div>
+          <div class="grid grid-cols-1 gap-2.5 sm:pl-11">
+            ${optionsHtml}
+          </div>
+        `;
+
+        questionsContainer.appendChild(card);
+      });
+
+      // Attach change listeners to radio inputs
+      const radioInputs = questionsContainer.querySelectorAll('input[type="radio"]');
+      radioInputs.forEach((input) => {
+        input.addEventListener("change", (e) => {
+          const qNum = parseInt(e.target.name.replace("question_", ""), 10);
+          const selectedOpt = e.target.value;
+          handleOptionSelect(qNum, selectedOpt);
+        });
+      });
+    }
+
+    function handleOptionSelect(qNum, selectedOpt) {
+      userAnswers[qNum] = selectedOpt;
+
+      // Update visual highlight for this question's options
+      const labels = questionsContainer.querySelectorAll(`.option-label[data-q="${qNum}"]`);
+      labels.forEach((lbl) => {
+        const badge = lbl.querySelector(".option-badge");
+        if (lbl.dataset.opt === selectedOpt) {
+          lbl.classList.add("bg-indigo-50", "border-indigo-600", "ring-1", "ring-indigo-600");
+          lbl.classList.remove("border-slate-200");
+          badge.classList.add("bg-indigo-600", "text-white");
+          badge.classList.remove("bg-slate-100", "text-slate-700");
+        } else {
+          lbl.classList.remove("bg-indigo-50", "border-indigo-600", "ring-1", "ring-indigo-600");
+          lbl.classList.add("border-slate-200");
+          badge.classList.remove("bg-indigo-600", "text-white");
+          badge.classList.add("bg-slate-100", "text-slate-700");
+        }
+      });
+
+      // Update progress counters
+      const answeredCount = Object.keys(userAnswers).length;
+      answeredCountEl.textContent = answeredCount;
+      progressBarEl.style.width = `${(answeredCount / QUIZ_QUESTIONS.length) * 100}%`;
+
+      const remaining = QUIZ_QUESTIONS.length - answeredCount;
+      if (remaining === 0) {
+        unansweredWarning.textContent = "All 10 questions answered! You are ready to submit.";
+        unansweredWarning.classList.add("text-emerald-600", "font-medium");
+      } else {
+        unansweredWarning.textContent = `You have ${remaining} unanswered question${remaining > 1 ? "s" : ""} remaining.`;
+      }
+    }
+
+    // =========================================================================
+    // 5. COUNTDOWN TIMER LOGIC
+    // =========================================================================
+    function startTimer() {
+      updateTimerDisplay();
+
+      timerInterval = setInterval(() => {
+        remainingSeconds--;
+        updateTimerDisplay();
+
+        // Warning styling when under 60 seconds
+        if (remainingSeconds <= 60 && remainingSeconds > 0) {
+          timerBadgeEl.classList.remove("bg-indigo-50", "text-indigo-700", "border-indigo-200");
+          timerBadgeEl.classList.add("bg-rose-100", "text-rose-700", "border-rose-300", "animate-pulse");
+        }
+
+        if (remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          submitQuiz(true); // Auto-submit on timeout
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.max(0, Math.floor(remainingSeconds / 60));
+      const secs = Math.max(0, remainingSeconds % 60);
+      timerDisplayEl.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    }
+
+    function formatDuration(secondsTaken) {
+      const mins = Math.floor(secondsTaken / 60);
+      const secs = secondsTaken % 60;
+      return `${mins}m ${secs}s`;
+    }
+
+    // =========================================================================
+    // 6. SUBMISSION, GRADING & EMAIL DISPATCH
+    // =========================================================================
+    submitQuizBtn.addEventListener("click", () => {
+      if (quizSubmitted) return;
+      const answeredCount = Object.keys(userAnswers).length;
+      if (answeredCount < QUIZ_QUESTIONS.length) {
+        const missing = QUIZ_QUESTIONS.length - answeredCount;
+        confirmModalText.textContent = `You have answered ${answeredCount} out of 10 questions (${missing} unanswered). Are you sure you want to submit now?`;
+        confirmModal.classList.remove("hidden");
+      } else {
+        submitQuiz(false);
+      }
+    });
+
+    modalCancelBtn.addEventListener("click", () => {
+      confirmModal.classList.add("hidden");
+    });
+
+    modalConfirmBtn.addEventListener("click", () => {
+      confirmModal.classList.add("hidden");
+      submitQuiz(false);
+    });
+
+    async function submitQuiz(isAutoTimeout = false) {
+      if (quizSubmitted) return;
+      quizSubmitted = true;
+      clearInterval(timerInterval);
+
+      const secondsTaken = TOTAL_TIME_SECONDS - Math.max(0, remainingSeconds);
+      const timeTakenStr = formatDuration(secondsTaken);
+      const submittedAt = new Date().toLocaleString();
+
+      // Grade the quiz
+      let score = 0;
+      const breakdownLines = [];
+      const reviewContainer = document.getElementById("script-review-container");
+      reviewContainer.innerHTML = "";
+
+      QUIZ_QUESTIONS.forEach((q) => {
+        const selectedKey = userAnswers[q.number] || null;
+        const isCorrect = selectedKey === q.answer;
+        if (isCorrect) score++;
+
+        const selectedText = selectedKey ? `${selectedKey}. ${q.options[selectedKey]}` : "No Answer Selected";
+        const correctText = `${q.answer}. ${q.options[q.answer]}`;
+
+        // Plain-text script line for email body
+        breakdownLines.push(
+          `Q${q.number}: ${q.question}\n` +
+          `   Student Answer: ${selectedText}\n` +
+          `   Correct Answer: ${correctText}\n` +
+          `   Status: ${isCorrect ? "PASS (+1)" : "FAIL (0)"}\n`
+        );
+
+        // Render visual review card for student
+        const reviewCard = document.createElement("div");
+        reviewCard.className = `p-4 sm:p-5 rounded-2xl border ${
+          isCorrect ? "bg-emerald-50/50 border-emerald-200" : "bg-rose-50/50 border-rose-200"
+        }`;
+
+        reviewCard.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <p class="font-bold text-slate-900 text-sm sm:text-base">
+              <span class="text-slate-500 mr-1">Q${q.number}.</span> ${q.question}
+            </p>
+            <span class="shrink-0 px-2.5 py-1 rounded-lg text-xs font-bold ${
+              isCorrect ? "bg-emerald-100 text-emerald-800" : "bg-rose-100 text-rose-800"
+            }">
+              ${isCorrect ? "✓ Correct" : "✗ Incorrect"}
+            </span>
+          </div>
+          <div class="mt-3 space-y-1 text-xs sm:text-sm">
+            <p class="${isCorrect ? "text-emerald-800 font-semibold" : "text-rose-700 font-semibold"}">
+              Your Answer: <span class="font-normal">${selectedText}</span>
+            </p>
+            ${
+              !isCorrect
+                ? `<p class="text-emerald-800 font-semibold">Correct Answer: <span class="font-normal">${correctText}</span></p>`
+                : ""
+            }
+          </div>
+        `;
+        reviewContainer.appendChild(reviewCard);
+      });
+
+      const percentage = Math.round((score / QUIZ_QUESTIONS.length) * 100);
+
+      // Build comprehensive plain-text report
+      generatedPlainTextReport =
+        `====================================================\n` +
+        `STATES OF MATTER & PARTICLE THEORY - EXAM SCRIPT\n` +
+        `====================================================\n` +
+        `Student Name : ${studentName}\n` +
+        `Student ID   : ${studentId}\n` +
+        `Final Score  : ${score} / 10 (${percentage}%)\n` +
+        `Time Taken   : ${timeTakenStr}\n` +
+        `Submitted At : ${submittedAt}\n` +
+        `Submit Type  : ${isAutoTimeout ? "Auto-Submitted (Time Expired)" : "Manual Submission"}\n` +
+        `====================================================\n\n` +
+        `DETAILED QUESTION-BY-QUESTION SCRIPT:\n\n` +
+        breakdownLines.join("\n");
+
+      // Populate Results UI
+      document.getElementById("res-student-name").textContent = studentName;
+      document.getElementById("res-student-meta").textContent = `ID: ${studentId} • Time Taken: ${timeTakenStr}`;
+      document.getElementById("res-score").textContent = score;
+      document.getElementById("res-percentage").textContent = `${percentage}%`;
+
+      if (isAutoTimeout) {
+        const badge = document.getElementById("submission-reason-badge");
+        badge.textContent = "Time Expired — Auto-Submitted";
+        badge.className = "inline-block bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-semibold px-3 py-1 rounded-full mb-2";
+      }
+
+      // Configure mailto backup link
+      const mailSubject = encodeURIComponent(`Quiz Script: ${studentName} (${studentId}) - Score: ${score}/10`);
+      const mailBody = encodeURIComponent(generatedPlainTextReport);
+      document.getElementById("mailto-backup-btn").href = `mailto:${INSTRUCTOR_EMAIL}?subject=${mailSubject}&body=${mailBody}`;
+
+      // Switch to Results Screen
+      quizHeader.classList.add("hidden");
+      quizScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Automatically send results & full script to quadriabdullah0@gmail.com
+      await sendResultsToInstructor(score, percentage, timeTakenStr, submittedAt);
+    }
+
+    async function sendResultsToInstructor(score, percentage, timeTakenStr, submittedAt) {
+      const banner = document.getElementById("email-status-banner");
+      const iconEl = document.getElementById("email-status-icon");
+      const titleEl = document.getElementById("email-status-title");
+      const descEl = document.getElementById("email-status-desc");
+
+      try {
+        const response = await fetch(`https://formsubmit.co/ajax/${INSTRUCTOR_EMAIL}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            _subject: `Quiz Submission: ${studentName} (${studentId}) — Score: ${score}/10 (${percentage}%)`,
+            _template: "box",
+            _captcha: "false",
+            "Student Name": studentName,
+            "Student ID": studentId,
+            "Final Score": `${score} / 10 (${percentage}%)`,
+            "Time Taken": timeTakenStr,
+            "Submitted At": submittedAt,
+            "Full Marked Script": generatedPlainTextReport
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && (data.success === "true" || data.success === true)) {
+          banner.className = "rounded-2xl p-4 sm:p-5 border bg-emerald-50 border-emerald-200 text-emerald-900 flex items-start sm:items-center gap-3.5 shadow-sm";
+          iconEl.innerHTML = `
+            <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+          `;
+          titleEl.textContent = "Score & Script Automatically Emailed!";
+          descEl.innerHTML = `Your score (<strong>${score}/10</strong>) and full marked script have been delivered to <strong>${INSTRUCTOR_EMAIL}</strong>.`;
+        } else {
+          throw new Error(data.message || "FormSubmit activation or network pending");
+        }
+      } catch (err) {
+        // Fallback notice if offline or awaiting one-time FormSubmit email activation
+        banner.className = "rounded-2xl p-4 sm:p-5 border bg-amber-50 border-amber-200 text-amber-900 flex items-start sm:items-center gap-3.5 shadow-sm";
+        iconEl.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+        `;
+        titleEl.textContent = "Automatic Relay Sent — Backup Option Available";
+        descEl.innerHTML = `If this is the first submission, the instructor must click the one-time activation link in <strong>${INSTRUCTOR_EMAIL}</strong>. You can also click <strong>"Send via Email App"</strong> below to send directly.`;
+      }
+    }
+
+    // =========================================================================
+    // 7. CLIPBOARD COPY UTILITY (iFrame-safe)
+    // =========================================================================
+    document.getElementById("copy-script-btn").addEventListener("click", () => {
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = generatedPlainTextReport;
+      tempTextArea.style.position = "fixed";
+      tempTextArea.style.opacity = "0";
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+
+      try {
+        document.execCommand("copy");
+        const toast = document.getElementById("toast");
+        toast.classList.remove("hidden");
+        setTimeout(() => toast.classList.add("hidden"), 2500);
+      } catch (e) {
+        console.error("Copy failed", e);
+      } finally {
+        document.body.removeChild(tempTextArea);
+      }
+    });
+  </script>
+</body>
+</html>
